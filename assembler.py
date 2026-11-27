@@ -38,14 +38,14 @@ def assemble(filename):
 
     instructions = []
 
-    for line in lines:
+    for number, line in enumerate(lines, start=1):
         line = line.split("//")[0].strip()
         if line:
-            instructions.append(line)
+            instructions.append((number, line))
 
     rom = 0
 
-    for line in instructions:
+    for _, line in instructions:
         if line.startswith("(") and line.endswith(")"):
             label = line[1:-1]
             if label in symbols:
@@ -56,11 +56,8 @@ def assemble(filename):
 
     result = []
     variable = 16
-    line_number = 0
 
-    for line in instructions:
-        line_number += 1
-
+    for line_number, line in instructions:
         try:
             if line.startswith("("):
                 continue
